@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "310577148735",
+    "project_id": "paxelinnotif",
+    "storage_bucket": "paxelinnotif.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:310577148735:android:82e753fc7dfdf167e7d98a",
+        "android_client_info": {
+          "package_name": "com.paxel.paxelinnotif"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "310577148735-tkvaq3o3hgnpr3mcnf24sltmvvg6fi64.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.paxel.paxelinnotif",
+            "certificate_hash": "c8cc9dd964ca60000e9cb37978304f757479aae0"
+          }
+        },
+        {
+          "client_id": "310577148735-crehm82fmieclnhfiofhr0iv0b7jrl77.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXR68fl_N4okmg0q8Ndy-LBBroMgry0CY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "310577148735-crehm82fmieclnhfiofhr0iv0b7jrl77.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
