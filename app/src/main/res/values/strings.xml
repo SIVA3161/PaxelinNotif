@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">PaxelinNotif</string>
+
+    <string name="high_channel_title">High priority Message</string>
+    <string name="medium_channel_title">Medium priority Message</string>
+    <string name="low_channel_title">Low priority Message</string>
+
+    <string name="high_channel_description">Messages with highest priority</string>
+    <string name="medium_channel_description">Messages with medium priority</string>
+    <string name="low_channel_description">Messages with lowest priority</string>
 </resources>

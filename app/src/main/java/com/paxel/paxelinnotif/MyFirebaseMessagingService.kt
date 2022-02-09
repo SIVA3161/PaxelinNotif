@@ -1,7 +1,6 @@
 package com.paxel.paxelinnotif
 
 import android.annotation.SuppressLint
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -18,8 +17,8 @@ import com.google.firebase.messaging.RemoteMessage
  * email : siva@paxel.co
  */
 
-const val channelId = "notif_channel"
-const val channelName = "com.paxel.paxelinnotif"
+const val channelId = "001"
+const val channelName = "High Priority Notification"
 @SuppressLint("MissingFirebaseInstanceTokenRefresh")
 class MyFirebaseMessagingService : FirebaseMessagingService() {
     // generate notification
