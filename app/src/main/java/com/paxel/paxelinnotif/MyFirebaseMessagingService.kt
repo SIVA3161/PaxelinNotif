@@ -2,11 +2,8 @@ package com.paxel.paxelinnotif
 
 import android.annotation.SuppressLint
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.ContentResolver
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -38,7 +35,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    private fun notifChannelCreation() {
+    private fun highPriorityNotifChannelCreation() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
         val channelName = getString(R.string.high_channel_title)
         val channelDescription = getString(R.string.high_channel_description)
@@ -88,7 +85,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         notificationManager.notify(Random.nextInt(), builder.build())
 
         //for the custom sound while receiving high priority msg
-        notifChannelCreation()
+        highPriorityNotifChannelCreation()
     }
 
     private fun removeBrokenChannel() {
