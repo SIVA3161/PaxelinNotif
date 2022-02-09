@@ -1,16 +1,22 @@
 package com.paxel.paxelinnotif
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.widget.RemoteViews
+import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import kotlin.random.Random
 
 /**
  * Created by Siva G Gurusamy on 04,Feb,2022
@@ -26,10 +32,28 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     // show notif
 
     override fun onMessageReceived(remoteMsg: RemoteMessage) {
+        removeBrokenChannel()
         if(remoteMsg.notification != null) {
             generateNotif(remoteMsg.notification!!.title!!,remoteMsg.notification!!.body!!)
         }
     }
+
+    private fun notifChannelCreation() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
+        val channelName = getString(R.string.high_channel_title)
+        val channelDescription = getString(R.string.high_channel_description)
+        val importance = NotificationManagerCompat.IMPORTANCE_HIGH
+        val channel = NotificationChannelCompat.Builder(CHANNEL_ID, importance).apply {
+            setName(channelName)
+            setDescription(channelDescription)
+            setSound(
+                Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${this@MyFirebaseMessagingService.packageName}/raw/pxl_sound"),
+                Notification.AUDIO_ATTRIBUTES_DEFAULT
+            )
+        }
+        NotificationManagerCompat.from(applicationContext).createNotificationChannel(channel.build())
+    }
+
     @SuppressLint("RemoteViewLayout")
     fun getRemoteView(title: String, msg: String): RemoteViews {
         val remoteView = RemoteViews("com.paxel.paxelinnotif", R.layout.custom_notification)
@@ -54,15 +78,27 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             .setAutoCancel(true)
             .setVibrate(longArrayOf(1000,1000,1000,1000))
             .setOnlyAlertOnce(true)
+            .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
+            .setSound(Uri.parse("${ContentResolver.SCHEME_ANDROID_RESOURCE}://${this.packageName}/${R.raw.pxl_sound}"))
         builder = builder.setContent(getRemoteView(title,msg))
 
-        val notifMngr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notifChannel = NotificationChannel(channelId, channelName,NotificationManager.IMPORTANCE_HIGH)
-            notifMngr.createNotificationChannel(notifChannel)
-        }
-        notifMngr.notify(0,builder.build())
+        val notificationManager = NotificationManagerCompat.from(applicationContext)
+        notificationManager.notify(Random.nextInt(), builder.build())
+
+        //for the custom sound while receiving high priority msg
+        notifChannelCreation()
+    }
+
+    private fun removeBrokenChannel() {
+        NotificationManagerCompat.from(applicationContext)
+            .deleteNotificationChannel(BROKEN_CHANNEL_ID)
+    }
+
+
+    companion object {
+        const val BROKEN_CHANNEL_ID: String = "general_channel"
+        const val CHANNEL_ID: String = "general_channel_new"
     }
 }
